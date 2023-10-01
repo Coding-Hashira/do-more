@@ -9,17 +9,23 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/next-js": "^2.1.5",
+    "@chakra-ui/react": "^2.8.1",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "framer-motion": "^10.16.4",
+    "next": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "next": "latest"
+    "react-icons": "^4.11.0"
   },
   "devDependencies": {
-    "typescript": "latest",
-    "@types/react": "latest",
     "@types/node": "latest",
+    "@types/react": "latest",
     "@types/react-dom": "latest",
     "autoprefixer": "latest",
     "postcss": "latest",
-    "tailwindcss": "latest"
+    "tailwindcss": "latest",
+    "typescript": "latest"
   }
 }
