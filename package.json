@@ -13,12 +13,14 @@
     "@chakra-ui/react": "^2.8.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "d3-ease": "^3.0.1",
     "framer-motion": "^10.16.4",
     "next": "latest",
     "react": "latest",
     "react-circular-progressbar": "^2.1.0",
     "react-dom": "latest",
-    "react-icons": "^4.11.0"
+    "react-icons": "^4.11.0",
+    "react-move": "^6.5.0"
   },
   "devDependencies": {
     "@types/node": "latest",
