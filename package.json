@@ -16,6 +16,7 @@
     "framer-motion": "^10.16.4",
     "next": "latest",
     "react": "latest",
+    "react-circular-progressbar": "^2.1.0",
     "react-dom": "latest",
     "react-icons": "^4.11.0"
   },
