@@ -2,16 +2,20 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
+import { GiPauseButton } from "react-icons/gi";
+import { BsPlayFill, BsPauseFill } from "react-icons/bs";
+
 import "react-circular-progressbar/dist/styles.css";
 import { Box, Flex } from "@chakra-ui/react";
 import PomodoroTimer from "@/components/Pomodoro/PomodoroTimer";
+import PrimaryButton from "@/components/Pomodoro/PrimaryButton";
 
 type Props = {};
 
-type WorkModeType = "work" | "break";
+export type WorkModeType = "work" | "break";
 
 const PomodoroPage = ({}: Props) => {
-  const [isPaused, setIsPaused] = useState(false);
+  const [isPaused, setIsPaused] = useState(true);
   const [mode, setMode] = useState<WorkModeType>("work");
   const [secLeft, setSecLeft] = useState(0);
   const [workMins, setWorkMins] = useState(25);
@@ -43,6 +47,15 @@ const PomodoroPage = ({}: Props) => {
   const initTimer = () => {
     secLeftRef.current = workMins * 60;
     setSecLeft(secLeftRef.current);
+  };
+
+  const tick = () => {
+    secLeftRef.current--;
+    setSecLeft(secLeftRef.current);
+  };
+
+  useEffect(() => {
+    initTimer();
 
     const interval = setInterval(() => {
       if (isPausedRef.current) {
@@ -56,15 +69,6 @@ const PomodoroPage = ({}: Props) => {
     }, 1000);
 
     return () => clearInterval(interval);
-  };
-
-  const tick = () => {
-    secLeftRef.current--;
-    setSecLeft(secLeftRef.current);
-  };
-
-  useEffect(() => {
-    initTimer();
   }, []);
 
   const totalSeconds = mode === "work" ? workMins * 60 : breakMins * 60;
@@ -79,10 +83,34 @@ const PomodoroPage = ({}: Props) => {
 
   return (
     <Flex justifyContent="center" py="8rem">
-      <Box>
+      <Flex
+        alignItems="center"
+        justifyContent="center"
+        flexDirection="column"
+        gap="4rem"
+      >
         <PomodoroTimer percent={percent} text={displayTime} />
-      </Box>
-      Total Sessipns: {sessions}
+
+        {!isPaused ? (
+          <PrimaryButton
+            clickHandler={() => {
+              setIsPaused(true);
+              isPausedRef.current = true;
+            }}
+          >
+            <BsPauseFill className="w-16 p-2 h-16" />
+          </PrimaryButton>
+        ) : (
+          <PrimaryButton
+            clickHandler={() => {
+              setIsPaused(false);
+              isPausedRef.current = false;
+            }}
+          >
+            <BsPlayFill className="w-16 p-2 h-16" />
+          </PrimaryButton>
+        )}
+      </Flex>
     </Flex>
   );
 };

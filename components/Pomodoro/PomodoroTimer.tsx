@@ -8,13 +8,12 @@ const PomodoroTimer = ({ percent, text }: Props) => {
   return (
     <CircularProgressbar
       value={percent}
-      strokeWidth={50}
       text={text}
+      strokeWidth={4}
       styles={buildStyles({
-        strokeLinecap: "butt",
-        pathColor: "white",
+        pathColor: "#AC6DDD",
         trailColor: "transparent",
-        textColor: "#181820",
+        textColor: "white",
       })}
     />
   );
