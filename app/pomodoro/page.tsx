@@ -2,19 +2,22 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
-import { GiPauseButton } from "react-icons/gi";
 import { BsPlayFill, BsPauseFill } from "react-icons/bs";
+import { VscDebugRestart } from "react-icons/vsc";
+import { RiSettings4Fill } from "react-icons/ri";
 
 import "react-circular-progressbar/dist/styles.css";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import PomodoroTimer from "@/components/Pomodoro/PomodoroTimer";
 import PrimaryButton from "@/components/Pomodoro/PrimaryButton";
+import SettingsModal from "@/components/Pomodoro/SettingsModal";
 
 type Props = {};
 
 export type WorkModeType = "work" | "break";
 
 const PomodoroPage = ({}: Props) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [isPaused, setIsPaused] = useState(true);
   const [mode, setMode] = useState<WorkModeType>("work");
   const [secLeft, setSecLeft] = useState(0);
@@ -27,7 +30,16 @@ const PomodoroPage = ({}: Props) => {
   const modeRef = useRef(mode);
   const sessionsRef = useRef(sessions);
 
-  const switchMode = () => {
+  const switchMode = (mode?: WorkModeType) => {
+    if (mode) {
+      modeRef.current = mode;
+      secLeftRef.current = workMins * 60;
+      setSecLeft(secLeftRef.current);
+      setMode(modeRef.current);
+
+      return;
+    }
+
     const nextMode = modeRef.current === "work" ? "break" : "work";
     const nextSecLeft = nextMode === "work" ? workMins * 60 : breakMins * 60;
 
@@ -82,7 +94,7 @@ const PomodoroPage = ({}: Props) => {
   const displayTime = `${minutes}:${sec}`;
 
   return (
-    <Flex justifyContent="center" py="8rem">
+    <Flex justifyContent="center" maxW="100vw" py="4rem">
       <Flex
         alignItems="center"
         justifyContent="center"
@@ -91,25 +103,62 @@ const PomodoroPage = ({}: Props) => {
       >
         <PomodoroTimer percent={percent} text={displayTime} />
 
-        {!isPaused ? (
-          <PrimaryButton
-            clickHandler={() => {
-              setIsPaused(true);
-              isPausedRef.current = true;
+        <Text>
+          {mode == "work"
+            ? `Focus for ${workMins} minutes`
+            : `Take a break for ${breakMins} minutes`}
+        </Text>
+
+        <Flex
+          alignItems="flex-start"
+          justifyContent="space-between"
+          width="120%"
+        >
+          <Box
+            bg="#2B2B34"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            rounded="full"
+            _hover={{ cursor: "pointer" }}
+            onClick={onOpen}
+          >
+            <RiSettings4Fill className="w-10 text-[#646464] p-2 h-10" />
+          </Box>
+          <SettingsModal isOpen={isOpen} onClose={onClose} />
+          {!isPaused ? (
+            <PrimaryButton
+              clickHandler={() => {
+                setIsPaused(true);
+                isPausedRef.current = true;
+              }}
+            >
+              <BsPauseFill className="w-16 p-2 h-16" />
+            </PrimaryButton>
+          ) : (
+            <PrimaryButton
+              clickHandler={() => {
+                setIsPaused(false);
+                isPausedRef.current = false;
+              }}
+            >
+              <BsPlayFill className="w-16 p-2 h-16" />
+            </PrimaryButton>
+          )}
+          <Box
+            bg="#2B2B34"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            rounded="full"
+            _hover={{ cursor: "pointer" }}
+            onClick={() => {
+              switchMode("work");
             }}
           >
-            <BsPauseFill className="w-16 p-2 h-16" />
-          </PrimaryButton>
-        ) : (
-          <PrimaryButton
-            clickHandler={() => {
-              setIsPaused(false);
-              isPausedRef.current = false;
-            }}
-          >
-            <BsPlayFill className="w-16 p-2 h-16" />
-          </PrimaryButton>
-        )}
+            <VscDebugRestart className="w-10 text-[#646464] p-2 h-10" />
+          </Box>
+        </Flex>
       </Flex>
     </Flex>
   );
