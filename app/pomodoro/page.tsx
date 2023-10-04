@@ -11,6 +11,7 @@ import { Box, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import PomodoroTimer from "@/components/Pomodoro/PomodoroTimer";
 import PrimaryButton from "@/components/Pomodoro/PrimaryButton";
 import SettingsModal from "@/components/Pomodoro/SettingsModal";
+import usePomodoroStore from "@/utils/pomodoroStore";
 
 type Props = {};
 
@@ -21,11 +22,9 @@ const PomodoroPage = ({}: Props) => {
   const [isPaused, setIsPaused] = useState(true);
   const [mode, setMode] = useState<WorkModeType>("work");
   const [secLeft, setSecLeft] = useState(0);
-  const [workMins, setWorkMins] = useState(25);
-  const [breakMins, setBreakMins] = useState(5);
-  const [themeColor, setThemeColor] = useState("#AC6DDD");
   const [sessions, setSessions] = useState(0);
-
+  const workMins = usePomodoroStore((state) => state.workMins);
+  const breakMins = usePomodoroStore((state) => state.breakMins);
   const secLeftRef = useRef(secLeft);
   const isPausedRef = useRef(isPaused);
   const modeRef = useRef(mode);
@@ -79,10 +78,10 @@ const PomodoroPage = ({}: Props) => {
       }
 
       tick();
-    }, 1000);
+    }, 10);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [workMins, breakMins]);
 
   const totalSeconds = mode === "work" ? workMins * 60 : breakMins * 60;
   const percent = Math.round((secLeft / totalSeconds) * 100);

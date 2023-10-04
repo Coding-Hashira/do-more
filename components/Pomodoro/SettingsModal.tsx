@@ -16,21 +16,47 @@ import {
 import ThemeSelect from "./ThemeSelect";
 import { useState } from "react";
 import usePomodoroStore from "@/utils/pomodoroStore";
+import MinuteInput from "./MinuteInput";
 
 type Props = { isOpen: boolean; onClose: () => void };
 
 const SettingsModal = ({ isOpen, onClose }: Props) => {
-  const [themeColor, setThemeColor] = usePomodoroStore((state) => [
+  const [
+    themeColor,
+    workMins,
+    breakMins,
+    changeWorkMins,
+    changeBreakMins,
+    setThemeColor,
+  ] = usePomodoroStore((state) => [
     state.themeColor,
+    state.workMins,
+    state.breakMins,
+    state.changeWorkMins,
+    state.changeBreakMins,
     state.changeThemeColor,
   ]);
 
+  const [workMinInputValue, setWorkMinInputValue] = useState(workMins);
+  const [breakMinInputValue, setBreakMinInputValue] = useState(breakMins);
+
   const [color, setColor] = useState(themeColor);
+
+  const applyChanges = () => {
+    changeBreakMins(breakMinInputValue);
+    changeWorkMins(workMinInputValue);
+    setThemeColor(color);
+
+    localStorage.setItem("workMins", workMins.toLocaleString());
+    localStorage.setItem("breakMins", breakMins.toLocaleString());
+    localStorage.setItem("themeColor", themeColor);
+
+    onClose();
+  };
 
   const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
     useNumberInput({
       step: 1,
-      defaultValue: 25,
       min: 10,
       max: 120,
       precision: 0,
@@ -65,40 +91,30 @@ const SettingsModal = ({ isOpen, onClose }: Props) => {
               </Text>
 
               <Flex justifyContent="space-between">
-                {/* WORK TIME */}
-                <Flex bg="secondaryDarkBg" rounded="md" w="min-content">
-                  <Button {...inc}>+</Button>
-                  <Input
-                    outline="none"
-                    border="none"
-                    width="2rem"
-                    padding="0"
-                    _focusVisible={{
-                      boxShadow: "none",
-                      border: "0px",
-                      outline: "none",
-                    }}
-                    {...input}
-                  />
-                  <Button {...dec}>-</Button>
-                </Flex>
-                {/* BREAK TIME */}
-                <Flex bg="secondaryDarkBg" rounded="md" w="min-content">
-                  <Button {...inc}>+</Button>
-                  <Input
-                    outline="none"
-                    border="none"
-                    width="2rem"
-                    padding="0"
-                    _focusVisible={{
-                      boxShadow: "none",
-                      border: "0px",
-                      outline: "none",
-                    }}
-                    {...input}
-                  />
-                  <Button {...dec}>-</Button>
-                </Flex>
+                <MinuteInput
+                  value={workMinInputValue}
+                  onPlusButtonClick={() => {
+                    setWorkMinInputValue(workMinInputValue + 1);
+                  }}
+                  onMinusButtonClick={() => {
+                    setWorkMinInputValue(workMinInputValue - 1);
+                  }}
+                  onChange={(e: any) => {
+                    setWorkMinInputValue(e.target.value);
+                  }}
+                />
+                <MinuteInput
+                  value={breakMinInputValue}
+                  onPlusButtonClick={() => {
+                    setBreakMinInputValue(breakMinInputValue + 1);
+                  }}
+                  onMinusButtonClick={() => {
+                    setBreakMinInputValue(breakMinInputValue - 1);
+                  }}
+                  onChange={(e: any) => {
+                    setBreakMinInputValue(e.target.value);
+                  }}
+                />
               </Flex>
             </Flex>
 
@@ -125,10 +141,7 @@ const SettingsModal = ({ isOpen, onClose }: Props) => {
               _active={{ background: color, filter: "brightness(90%)" }}
               mr={3}
               textColor="white"
-              onClick={() => {
-                setThemeColor(color);
-                onClose();
-              }}
+              onClick={applyChanges}
             >
               Apply
             </Button>
