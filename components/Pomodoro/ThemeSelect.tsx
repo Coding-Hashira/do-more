@@ -1,17 +1,20 @@
+import usePomodoroStore from "@/utils/pomodoroStore";
 import { Box, HStack, useRadio, useRadioGroup } from "@chakra-ui/react";
 import React from "react";
 
-type Props = { colors: string[]; defaultValue: string; onChange?: any };
+type Props = {
+  onChange: (color: string) => void;
+};
 
-const ThemeSelect = ({
-  colors,
-  defaultValue,
-  onChange = console.log,
-}: Props) => {
+const ThemeSelect = ({ onChange }: Props) => {
+  const [themeColor, themeColors] = usePomodoroStore((state) => [
+    state.themeColor,
+    state.themeColors,
+  ]);
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "color",
 
-    defaultValue: defaultValue,
+    defaultValue: themeColor,
 
     onChange: onChange,
   });
@@ -20,7 +23,7 @@ const ThemeSelect = ({
 
   return (
     <HStack {...group} gap="2rem">
-      {colors.map((value) => {
+      {themeColors.map((value) => {
         const radio = getRadioProps({ value });
 
         return <ThemeColor key={value} {...radio} color={value} />;

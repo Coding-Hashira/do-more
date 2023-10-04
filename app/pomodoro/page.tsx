@@ -23,6 +23,7 @@ const PomodoroPage = ({}: Props) => {
   const [secLeft, setSecLeft] = useState(0);
   const [workMins, setWorkMins] = useState(25);
   const [breakMins, setBreakMins] = useState(5);
+  const [themeColor, setThemeColor] = useState("#AC6DDD");
   const [sessions, setSessions] = useState(0);
 
   const secLeftRef = useRef(secLeft);

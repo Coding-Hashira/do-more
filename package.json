@@ -20,7 +20,8 @@
     "react-circular-progressbar": "^2.1.0",
     "react-dom": "latest",
     "react-icons": "^4.11.0",
-    "react-move": "^6.5.0"
+    "react-move": "^6.5.0",
+    "zustand": "^4.4.2"
   },
   "devDependencies": {
     "@types/node": "latest",

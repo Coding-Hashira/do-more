@@ -14,12 +14,19 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import ThemeSelect from "./ThemeSelect";
+import { useState } from "react";
+import usePomodoroStore from "@/utils/pomodoroStore";
 
 type Props = { isOpen: boolean; onClose: () => void };
 
-const colors = ["#AC6DDD", "#2abfb3"];
-
 const SettingsModal = ({ isOpen, onClose }: Props) => {
+  const [themeColor, setThemeColor] = usePomodoroStore((state) => [
+    state.themeColor,
+    state.changeThemeColor,
+  ]);
+
+  const [color, setColor] = useState(themeColor);
+
   const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
     useNumberInput({
       step: 1,
@@ -32,6 +39,7 @@ const SettingsModal = ({ isOpen, onClose }: Props) => {
   const inc = getIncrementButtonProps();
   const dec = getDecrementButtonProps();
   const input = getInputProps();
+
   return (
     <DarkMode>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -104,18 +112,23 @@ const SettingsModal = ({ isOpen, onClose }: Props) => {
               >
                 Theme Color
               </Text>
-              <ThemeSelect colors={colors} defaultValue="#AC6DDD" />
+              <ThemeSelect onChange={setColor} />
             </Flex>
-            {/* CLOCK STYLE */}
           </ModalBody>
 
           <ModalFooter>
-            <Button variant="ghost">Cancel</Button>
+            <Button variant="ghost" onClick={onClose}>
+              Cancel
+            </Button>
             <Button
-              colorScheme="purple"
+              _hover={{ background: color }}
+              _active={{ background: color, filter: "brightness(90%)" }}
               mr={3}
               textColor="white"
-              onClick={onClose}
+              onClick={() => {
+                setThemeColor(color);
+                onClose();
+              }}
             >
               Apply
             </Button>
