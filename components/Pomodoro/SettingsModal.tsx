@@ -137,8 +137,11 @@ const SettingsModal = ({ isOpen, onClose }: Props) => {
               Cancel
             </Button>
             <Button
-              _hover={{ background: color }}
-              _active={{ background: color, filter: "brightness(90%)" }}
+              _hover={{ background: color === "#fff" ? "#AC6DDD" : color }}
+              _active={{
+                background: color === "#fff" ? "#AC6DDD" : color,
+                filter: "brightness(90%)",
+              }}
               mr={3}
               textColor="white"
               onClick={applyChanges}

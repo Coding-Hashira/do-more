@@ -11,9 +11,13 @@ const PrimaryButton = ({ clickHandler, children }: Props) => {
 
   return (
     <Box
-      bg={themeColor}
+      bg={themeColor === "#fff" ? "#AC6DDD" : themeColor}
       display="flex"
-      filter={`drop-shadow(0px 0px 13.708800315856934px ${themeColor}) drop-shadow(0px 0px 2.990400314331055px ${themeColor})`}
+      filter={`drop-shadow(0px 0px 13.708800315856934px ${
+        themeColor === "#fff" ? "#AC6DDD" : themeColor
+      }) drop-shadow(0px 0px 2.990400314331055px ${
+        themeColor === "#fff" ? "#AC6DDD" : themeColor
+      })`}
       alignItems="center"
       justifyContent="center"
       rounded="full"

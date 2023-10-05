@@ -1,5 +1,5 @@
 import usePomodoroStore from "@/utils/pomodoroStore";
-import { Box, HStack, useRadio, useRadioGroup } from "@chakra-ui/react";
+import { Box, Grid, HStack, useRadio, useRadioGroup } from "@chakra-ui/react";
 import React from "react";
 
 type Props = {
@@ -22,13 +22,13 @@ const ThemeSelect = ({ onChange }: Props) => {
   const group = getRootProps();
 
   return (
-    <HStack {...group} gap="2rem">
+    <Grid {...group} gridTemplateColumns="repeat(4, auto)" gap="2rem">
       {themeColors.map((value) => {
         const radio = getRadioProps({ value });
 
         return <ThemeColor key={value} {...radio} color={value} />;
       })}
-    </HStack>
+    </Grid>
   );
 };
 
@@ -51,7 +51,9 @@ const ThemeColor = (props: any) => {
         bg={props.color}
         transition="filter 400ms"
         _hover={{ filter: "brightness(0.9)" }}
-        _checked={{ border: "white solid 2px" }}
+        _checked={{
+          border: `${props.color === "#fff" ? "black" : "white"} 1px solid`,
+        }}
         rounded="full"
       ></Box>
     </Box>
