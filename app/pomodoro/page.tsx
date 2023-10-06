@@ -18,13 +18,15 @@ type Props = {};
 export type WorkModeType = "work" | "break";
 
 const PomodoroPage = ({}: Props) => {
+  const state = usePomodoroStore((state) => state);
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [workMins, setWorkMins] = useState(25);
+  const [breakMins, setBreakMins] = useState(5);
   const [isPaused, setIsPaused] = useState(true);
   const [mode, setMode] = useState<WorkModeType>("work");
   const [secLeft, setSecLeft] = useState(0);
   const [sessions, setSessions] = useState(0);
-  const workMins = usePomodoroStore((state) => state.workMins);
-  const breakMins = usePomodoroStore((state) => state.breakMins);
   const secLeftRef = useRef(secLeft);
   const isPausedRef = useRef(isPaused);
   const modeRef = useRef(mode);
@@ -78,10 +80,15 @@ const PomodoroPage = ({}: Props) => {
       }
 
       tick();
-    }, 10);
+    }, 1000); // 1000ms = 1s, change it to 10/100 for running clock fast, and testing
 
     return () => clearInterval(interval);
   }, [workMins, breakMins]);
+
+  useEffect(() => {
+    setBreakMins(state?.breakMins);
+    setWorkMins(state?.workMins);
+  }, [state]);
 
   const totalSeconds = mode === "work" ? workMins * 60 : breakMins * 60;
   const percent = Math.round((secLeft / totalSeconds) * 100);
