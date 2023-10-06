@@ -120,10 +120,11 @@ const PomodoroPage = ({}: Props) => {
             alignItems="center"
             justifyContent="center"
             rounded="full"
-            _hover={{ cursor: "pointer" }}
+            className="group"
+            _hover={{ cursor: "pointer", transform: "scale(1.1)" }}
             onClick={onOpen}
           >
-            <RiSettings4Fill className="w-10 text-[#646464] p-2 h-10" />
+            <RiSettings4Fill className="w-10 group-hover:-rotate-[360deg] duration-300 transition-all group-hover:text-white text-[#646464] p-2 h-10" />
           </Box>
           <SettingsModal isOpen={isOpen} onClose={onClose} />
           {!isPaused ? (
@@ -151,12 +152,13 @@ const PomodoroPage = ({}: Props) => {
             alignItems="center"
             justifyContent="center"
             rounded="full"
-            _hover={{ cursor: "pointer" }}
+            className="group"
+            _hover={{ cursor: "pointer", transform: "scale(1.1)" }}
             onClick={() => {
               switchMode("work");
             }}
           >
-            <VscDebugRestart className="w-10 text-[#646464] p-2 h-10" />
+            <VscDebugRestart className="w-10 text-[#646464] group-hover:-rotate-[360deg] duration-300 transition-all group-hover:text-white p-2 h-10" />
           </Box>
         </Flex>
       </Flex>
