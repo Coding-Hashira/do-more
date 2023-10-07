@@ -9,62 +9,42 @@ import {
   Button,
   DarkMode,
   Text,
-  Input,
-  useNumberInput,
   Flex,
 } from "@chakra-ui/react";
 import ThemeSelect from "./ThemeSelect";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import usePomodoroStore from "@/utils/pomodoroStore";
 import MinuteInput from "./MinuteInput";
 
 type Props = { isOpen: boolean; onClose: () => void };
 
 const SettingsModal = ({ isOpen, onClose }: Props) => {
-  const [
-    themeColor,
-    workMins,
-    breakMins,
-    changeWorkMins,
-    changeBreakMins,
-    setThemeColor,
-  ] = usePomodoroStore((state) => [
-    state.themeColor,
-    state.workMins,
-    state.breakMins,
-    state.changeWorkMins,
-    state.changeBreakMins,
-    state.changeThemeColor,
-  ]);
+  const [state, changeWorkMins, changeBreakMins, setThemeColor] =
+    usePomodoroStore((state) => [
+      state,
+      state.changeWorkMins,
+      state.changeBreakMins,
+      state.changeThemeColor,
+    ]);
 
-  const [workMinInputValue, setWorkMinInputValue] = useState(workMins);
-  const [breakMinInputValue, setBreakMinInputValue] = useState(breakMins);
+  const [workMinInputValue, setWorkMinInputValue] = useState(25);
+  const [breakMinInputValue, setBreakMinInputValue] = useState(5);
 
-  const [color, setColor] = useState(themeColor);
+  const [color, setColor] = useState("");
 
   const applyChanges = () => {
     changeBreakMins(breakMinInputValue);
     changeWorkMins(workMinInputValue);
     setThemeColor(color);
 
-    localStorage.setItem("workMins", workMins.toLocaleString());
-    localStorage.setItem("breakMins", breakMins.toLocaleString());
-    localStorage.setItem("themeColor", themeColor);
-
     onClose();
   };
 
-  const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
-    useNumberInput({
-      step: 1,
-      min: 10,
-      max: 120,
-      precision: 0,
-    });
-
-  const inc = getIncrementButtonProps();
-  const dec = getDecrementButtonProps();
-  const input = getInputProps();
+  useEffect(() => {
+    setWorkMinInputValue(state?.workMins);
+    setBreakMinInputValue(state?.breakMins);
+    setColor(state?.themeColor);
+  }, [state]);
 
   return (
     <DarkMode>

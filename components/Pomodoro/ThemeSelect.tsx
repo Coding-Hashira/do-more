@@ -1,16 +1,21 @@
 import usePomodoroStore from "@/utils/pomodoroStore";
-import { Box, Grid, HStack, useRadio, useRadioGroup } from "@chakra-ui/react";
-import React from "react";
+import { themeColors } from "@/utils/utils";
+import { Box, Grid, useRadio, useRadioGroup } from "@chakra-ui/react";
+import React, { useState, useEffect } from "react";
 
 type Props = {
   onChange: (color: string) => void;
 };
 
 const ThemeSelect = ({ onChange }: Props) => {
-  const [themeColor, themeColors] = usePomodoroStore((state) => [
-    state.themeColor,
-    state.themeColors,
-  ]);
+  const state = usePomodoroStore((state) => state);
+
+  const [themeColor, setThemeColor] = useState("");
+
+  useEffect(() => {
+    setThemeColor(state?.themeColor);
+  }, [state]);
+
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "color",
 
