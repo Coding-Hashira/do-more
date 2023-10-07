@@ -16,6 +16,8 @@ const Navbar = (props: Props) => {
       background="secondaryDarkBg"
       shadow="nav"
       py="0.75rem"
+      position={"absolute"}
+      width={"100%"}
     >
       <Box flexGrow="1" gap="1.5rem" display="flex" alignItems="center">
         <Flex
