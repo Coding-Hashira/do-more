@@ -18,13 +18,15 @@ type Props = {};
 export type WorkModeType = "work" | "break";
 
 const PomodoroPage = ({}: Props) => {
+  const state = usePomodoroStore((state) => state);
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [workMins, setWorkMins] = useState(25);
+  const [breakMins, setBreakMins] = useState(5);
   const [isPaused, setIsPaused] = useState(true);
   const [mode, setMode] = useState<WorkModeType>("work");
   const [secLeft, setSecLeft] = useState(0);
   const [sessions, setSessions] = useState(0);
-  const workMins = usePomodoroStore((state) => state.workMins);
-  const breakMins = usePomodoroStore((state) => state.breakMins);
   const secLeftRef = useRef(secLeft);
   const isPausedRef = useRef(isPaused);
   const modeRef = useRef(mode);
@@ -78,10 +80,15 @@ const PomodoroPage = ({}: Props) => {
       }
 
       tick();
-    }, 10);
+    }, 1000); // 1000ms = 1s, change it to 10/100 for running clock fast, and testing
 
     return () => clearInterval(interval);
   }, [workMins, breakMins]);
+
+  useEffect(() => {
+    setBreakMins(state?.breakMins);
+    setWorkMins(state?.workMins);
+  }, [state]);
 
   const totalSeconds = mode === "work" ? workMins * 60 : breakMins * 60;
   const percent = Math.round((secLeft / totalSeconds) * 100);
@@ -120,10 +127,11 @@ const PomodoroPage = ({}: Props) => {
             alignItems="center"
             justifyContent="center"
             rounded="full"
-            _hover={{ cursor: "pointer" }}
+            className="group"
+            _hover={{ cursor: "pointer", transform: "scale(1.1)" }}
             onClick={onOpen}
           >
-            <RiSettings4Fill className="w-10 text-[#646464] p-2 h-10" />
+            <RiSettings4Fill className="w-10 group-hover:-rotate-[360deg] duration-300 transition-all group-hover:text-white text-[#646464] p-2 h-10" />
           </Box>
           <SettingsModal isOpen={isOpen} onClose={onClose} />
           {!isPaused ? (
@@ -151,12 +159,13 @@ const PomodoroPage = ({}: Props) => {
             alignItems="center"
             justifyContent="center"
             rounded="full"
-            _hover={{ cursor: "pointer" }}
+            className="group"
+            _hover={{ cursor: "pointer", transform: "scale(1.1)" }}
             onClick={() => {
               switchMode("work");
             }}
           >
-            <VscDebugRestart className="w-10 text-[#646464] p-2 h-10" />
+            <VscDebugRestart className="w-10 text-[#646464] group-hover:-rotate-[360deg] duration-300 transition-all group-hover:text-white p-2 h-10" />
           </Box>
         </Flex>
       </Flex>
