@@ -1,14 +1,17 @@
+"use client";
+
 import Image from "next/image"
+import {signIn} from 'next-auth/react'
 
 const SigninButtons = () => {
     return (
         <>
-            <button className="bg-gray-100 hover:bg-gray-200 text-black font-semibold py-3 px-4 rounded-lg flex items-center space-x-2 shadow-sm transition">
+            <button className="bg-gray-100 hover:bg-gray-200 text-black font-semibold py-3 px-4 rounded-lg flex items-center space-x-2 shadow-sm transition" onClick={()=> signIn('google', {callbackUrl: 'http://localhost:3000/'})}>
                 <Image src={"/g-logo.svg"} alt={"Google Logo"} height={20} width={20} className="mr-2" />
                 Sign in with Google
             </button>
 
-            <button className=" bg-gray-700 hover:bg-gray-800 text-white font-semibold py-3 px-4 rounded-lg flex items-center justify-center space-x-2 shadow-sm transition">
+            <button className=" bg-gray-700 hover:bg-gray-800 text-white font-semibold py-3 px-4 rounded-lg flex items-center justify-center space-x-2 shadow-sm transition" onClick={()=> signIn('github', {callbackUrl: 'http://localhost:3000/'})}>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5 mr-2"
