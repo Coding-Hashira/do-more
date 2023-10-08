@@ -91,7 +91,7 @@ const PomodoroPage = ({}: Props) => {
   }, [state]);
 
   const totalSeconds = mode === "work" ? workMins * 60 : breakMins * 60;
-  const percent = Math.round((secLeft / totalSeconds) * 100);
+  const percent = (secLeft / totalSeconds) * 100;
 
   const minutes = Math.floor(secLeft / 60);
   let sec: number | string = secLeft % 60;
@@ -101,7 +101,13 @@ const PomodoroPage = ({}: Props) => {
   const displayTime = `${minutes}:${sec}`;
 
   return (
-    <Flex justifyContent="center" maxW="100vw" py="4rem">
+    <Flex
+      justifyContent="center"
+      h={"100vh"}
+      bg="darkBg"
+      maxW="100vw"
+      alignItems={"center"}
+    >
       <Flex
         alignItems="center"
         justifyContent="center"
@@ -122,7 +128,7 @@ const PomodoroPage = ({}: Props) => {
           width="120%"
         >
           <Box
-            bg="#2B2B34"
+            bg="#0E1334"
             display="flex"
             alignItems="center"
             justifyContent="center"
@@ -131,7 +137,7 @@ const PomodoroPage = ({}: Props) => {
             _hover={{ cursor: "pointer", transform: "scale(1.1)" }}
             onClick={onOpen}
           >
-            <RiSettings4Fill className="w-10 group-hover:-rotate-[360deg] duration-300 transition-all group-hover:text-white text-[#646464] p-2 h-10" />
+            <RiSettings4Fill className="w-10 group-hover:-rotate-[360deg] duration-300 transition-all group-hover:text-white text-[#fff] p-2 h-10" />
           </Box>
           <SettingsModal isOpen={isOpen} onClose={onClose} />
           {!isPaused ? (
@@ -154,7 +160,7 @@ const PomodoroPage = ({}: Props) => {
             </PrimaryButton>
           )}
           <Box
-            bg="#2B2B34"
+            bg="#0E1334"
             display="flex"
             alignItems="center"
             justifyContent="center"
@@ -165,7 +171,7 @@ const PomodoroPage = ({}: Props) => {
               switchMode("work");
             }}
           >
-            <VscDebugRestart className="w-10 text-[#646464] group-hover:-rotate-[360deg] duration-300 transition-all group-hover:text-white p-2 h-10" />
+            <VscDebugRestart className="w-10 text-[#fff] group-hover:-rotate-[360deg] duration-300 transition-all group-hover:text-white p-2 h-10" />
           </Box>
         </Flex>
       </Flex>
