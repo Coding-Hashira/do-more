@@ -1,3 +1,5 @@
+"use client";
+
 import CollectionCard from "@/components/Collections/CollectionCard";
 import { Box, Center, Grid, Heading } from "@chakra-ui/react";
 import React from "react";
