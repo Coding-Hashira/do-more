@@ -1,6 +1,6 @@
 "use client";
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
-import { MdDashboard, MdTimer } from "react-icons/md";
+import { MdDashboard, MdFolder, MdTimer } from "react-icons/md";
 import { usePathname, useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 
@@ -24,30 +24,9 @@ const Navbar = (props: Props) => {
       width={"100%"}
     >
       <Box flexGrow="1" gap="1.5rem" display="flex" alignItems="center">
-        <Flex
-          gap="0.5rem"
-          cursor="pointer"
-          onClick={() => router.push("/")}
-          textColor={pathname === "/" ? "white" : "#A7A7A7"}
-          alignItems="center"
-        >
-          <MdDashboard className="text-lg" />{" "}
-          <Text fontWeight="600" fontSize="sm" textAlign="center">
-            Dashboard
-          </Text>
-        </Flex>
-        <Flex
-          textColor={pathname === "/pomodoro" ? "white" : "#A7A7A7"}
-          gap="0.5rem"
-          cursor="pointer"
-          onClick={() => router.push("/pomodoro")}
-          alignItems="center"
-        >
-          <MdTimer className="text-lg" />{" "}
-          <Text fontWeight="600" fontSize="sm" textAlign="center">
-            Focus Timer
-          </Text>
-        </Flex>
+        <NavItem path="Dashboard" url="/" icon={<MdDashboard />} />
+        <NavItem path="Collections" url="/Collections" icon={<MdFolder />} />
+        <NavItem path="Focus Timer" url="/pomodoro" icon={<MdTimer />} />
       </Box>
 
       <Box>
@@ -67,6 +46,38 @@ const Navbar = (props: Props) => {
           />
         )}
       </Box>
+    </Flex>
+  );
+};
+
+const NavItem = ({
+  path,
+  url,
+  icon,
+}: {
+  path: string;
+  url: string;
+  icon: React.ReactNode;
+}) => {
+  const router = useRouter();
+
+  const pathname = usePathname();
+  return (
+    <Flex
+      gap="0.5rem"
+      padding="0.5rem"
+      rounded="4px"
+      _hover={{ color: "white", background: "rgba(0,0,0,0.3)" }}
+      transition="all 200ms ease"
+      cursor="pointer"
+      onClick={() => router.push(url)}
+      textColor={pathname === url ? "white" : "#A7A7A7"}
+      alignItems="center"
+    >
+      {icon}
+      <Text fontWeight="600" fontSize="sm" textAlign="center">
+        {path}
+      </Text>
     </Flex>
   );
 };
