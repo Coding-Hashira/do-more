@@ -1,7 +1,7 @@
 "use client";
 
 import CollectionCard from "@/components/Collections/CollectionCard";
-import { Box, Center, Grid, Heading } from "@chakra-ui/react";
+import { Box, Center, Flex, Grid, Heading } from "@chakra-ui/react";
 import React from "react";
 import { FaBookOpen, FaPaintBrush, FaPlus, FaUser } from "react-icons/fa";
 
@@ -17,7 +17,14 @@ const Collections = (props: Props) => {
   };
 
   return (
-    <Center py="6rem" w="100vw">
+    <Flex
+      flexDir="column"
+      alignItems="center"
+      bg="darkBg"
+      minH="100vh"
+      py="6rem"
+      w="100vw"
+    >
       <Box>
         <Heading mb="4rem" size="lg">
           Collections
@@ -78,7 +85,7 @@ const Collections = (props: Props) => {
           </Box>
         </Grid>
       </Box>
-    </Center>
+    </Flex>
   );
 };
 

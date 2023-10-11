@@ -25,10 +25,10 @@ const CollectionCard = ({
   return (
     <Link href={`/collections/${urlSlug}`}>
       <Box
-        bg="secondaryDarkBg"
+        bg="#2c3160"
         transition="all 0.35s ease-in-out"
         className="group"
-        _hover={{ background: "#1d203f", transform: "scale(1.05)" }}
+        _hover={{ background: "#24284f", transform: "scale(1.05)" }}
         w="10rem"
         h="10rem"
         rounded="1.5rem"
