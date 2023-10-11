@@ -2,14 +2,11 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import { MdDashboard, MdFolder, MdTimer } from "react-icons/md";
 import { usePathname, useRouter } from "next/navigation";
-import { signOut, useSession } from "next-auth/react";
 
 type Props = {};
 
-const Navbar = (props: Props) => {
+const Navbar = ({}: Props) => {
   const pathname = usePathname();
-  const router = useRouter();
-  const { data: session, status } = useSession();
   const isLoginPage = pathname === "/signin";
 
   return (
@@ -25,26 +22,18 @@ const Navbar = (props: Props) => {
     >
       <Box flexGrow="1" gap="1.5rem" display="flex" alignItems="center">
         <NavItem path="Dashboard" url="/" icon={<MdDashboard />} />
-        <NavItem path="Collections" url="/Collections" icon={<MdFolder />} />
+        <NavItem path="Collections" url="/collections" icon={<MdFolder />} />
         <NavItem path="Focus Timer" url="/pomodoro" icon={<MdTimer />} />
       </Box>
 
       <Box>
-        {status === "loading" ? (
-          <Text fontSize={"sm"} color="white">
-            Loading...
-          </Text>
-        ) : (
-          <Image
-            src={session?.user?.image || "/PFP.png"}
-            alt="PFP"
-            rounded="full"
-            width="2.5rem"
-            height="2.5rem"
-            cursor={status === "authenticated" ? "pointer" : "default"}
-            onClick={status === "authenticated" ? () => signOut() : undefined}
-          />
-        )}
+        <Image
+          src={"/PFP.png"}
+          alt="PFP"
+          rounded="full"
+          width="2.5rem"
+          height="2.5rem"
+        />
       </Box>
     </Flex>
   );
