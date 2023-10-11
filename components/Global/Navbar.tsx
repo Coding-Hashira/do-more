@@ -2,12 +2,15 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import { MdDashboard, MdFolder, MdTimer } from "react-icons/md";
 import { usePathname, useRouter } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
 
 type Props = {};
 
 const Navbar = ({}: Props) => {
   const pathname = usePathname();
   const isLoginPage = pathname === "/signin";
+  const router = useRouter();
+  const { data: session, status } = useSession();
 
   return (
     <Flex
@@ -27,13 +30,21 @@ const Navbar = ({}: Props) => {
       </Box>
 
       <Box>
-        <Image
-          src={"/PFP.png"}
-          alt="PFP"
-          rounded="full"
-          width="2.5rem"
-          height="2.5rem"
-        />
+        {status === "loading" ? (
+          <Text fontSize={"sm"} color="white">
+            Loading...
+          </Text>
+        ) : (
+          <Image
+            src={session?.user?.image || "/PFP.png"}
+            alt="PFP"
+            rounded="full"
+            width="2.5rem"
+            height="2.5rem"
+            cursor={status === "authenticated" ? "pointer" : "default"}
+            onClick={status === "authenticated" ? () => signOut() : undefined}
+          />
+        )}
       </Box>
     </Flex>
   );
