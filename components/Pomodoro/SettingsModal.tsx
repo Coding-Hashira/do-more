@@ -16,9 +16,9 @@ import { useState, useEffect } from "react";
 import usePomodoroStore from "@/utils/pomodoroStore";
 import MinuteInput from "./MinuteInput";
 
-type Props = { isOpen: boolean; onClose: () => void };
+export type ModalProps = { isOpen: boolean; onClose: () => void };
 
-const SettingsModal = ({ isOpen, onClose }: Props) => {
+const SettingsModal = ({ isOpen, onClose }: ModalProps) => {
   const [state, changeWorkMins, changeBreakMins, setThemeColor] =
     usePomodoroStore((state) => [
       state,

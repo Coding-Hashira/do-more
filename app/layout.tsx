@@ -20,14 +20,14 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="dark">
       <head>
-        <link rel="icon" href="/logo.svg" />
+        <link rel="icon" href="/Logo(1).svg" />
       </head>
       <body className={inter.className}>
         <AuthProviders>
-        <Providers>
-          <Navbar />
-          {children}
-        </Providers>
+          <Providers>
+            <Navbar />
+            {children}
+          </Providers>
         </AuthProviders>
       </body>
     </html>
