@@ -2,8 +2,9 @@
 import { Box, Flex, HStack, Image, Text } from "@chakra-ui/react";
 import { MdDashboard, MdFolder, MdTimer } from "react-icons/md";
 import { usePathname, useRouter } from "next/navigation";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import AddTaskBtn from "./AddTaskBtn";
+import ProfilePopover from "./ProfilePopover";
 
 type Props = {};
 
@@ -37,15 +38,16 @@ const Navbar = ({}: Props) => {
       ) : ( */}
       <HStack gap="1.5rem">
         <AddTaskBtn />
-        <Image
-          src={session?.user?.image || "/PFP.png"}
-          alt="PFP"
-          rounded="full"
-          width="2.5rem"
-          height="2.5rem"
-          cursor={status === "authenticated" ? "pointer" : "default"}
-          onClick={status === "authenticated" ? () => signOut() : undefined}
-        />
+        <ProfilePopover>
+          <Image
+            src={session?.user?.image || "/PFP.png"}
+            alt="PFP"
+            rounded="full"
+            width="2.5rem"
+            height="2.5rem"
+            cursor="pointer"
+          />
+        </ProfilePopover>
       </HStack>
     </Flex>
   );
