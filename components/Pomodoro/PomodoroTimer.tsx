@@ -1,14 +1,18 @@
-import usePomodoroStore, { PomodoroState } from "@/utils/pomodoroStore";
-import React from "react";
+import usePomodoroStore from "@/utils/pomodoroStore";
+import { useState, useEffect } from "react";
 
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 
 type Props = { percent: number; text: string };
 
 const PomodoroTimer = ({ percent, text }: Props) => {
-  const themeColor = usePomodoroStore(
-    (state: PomodoroState) => state.themeColor
-  );
+  const state = usePomodoroStore((state: any) => state);
+
+  const [themeColor, setThemeColor] = useState("");
+
+  useEffect(() => {
+    setThemeColor(state?.themeColor);
+  }, [state]);
 
   return (
     <CircularProgressbar

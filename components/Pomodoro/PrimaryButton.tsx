@@ -1,13 +1,16 @@
 import usePomodoroStore, { PomodoroState } from "@/utils/pomodoroStore";
 import { Box } from "@chakra-ui/react";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState, useEffect } from "react";
 
 type Props = { clickHandler: () => void; children: ReactNode };
 
 const PrimaryButton = ({ clickHandler, children }: Props) => {
-  const themeColor = usePomodoroStore(
-    (state: PomodoroState) => state.themeColor
-  );
+  const state = usePomodoroStore((state: PomodoroState) => state);
+  const [themeColor, setThemeColor] = useState("");
+
+  useEffect(() => {
+    setThemeColor(state?.themeColor);
+  }, [state]);
 
   return (
     <Box
